@@ -15,17 +15,16 @@ col = db['test']
 import gridfs
 tireInfo = gridfs.GridFS(db)
 
-
+def saveImage():
+    imageLocation = "C:/Users/Jae/Downloads/firsttesttire.jpg"
+    #Open the image in read-only format.
+    with open(imageLocation, 'rb') as tireImage:
+        contents = tireImage.read()
+    #Now store/put the image via GridFs object.
+    tireInfo.put(contents, filename="image1")
 
 
 '''
-imageLocation = "C:/Users/Jae/Downloads/firsttesttire.jpg"
-#Open the image in read-only format.
-with open(imageLocation, 'rb') as tireImage:
-    contents = tireImage.read()
-#Now store/put the image via GridFs object.
-tireInfo.put(contents, filename="image1")
-
 imageLocation = "C:/Users/Jae/Downloads/tiretest.png"
 with open(imageLocation, 'rb') as tireImage:
     contents = tireImage.read()
