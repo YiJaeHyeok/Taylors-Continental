@@ -1,51 +1,41 @@
 from pymongo import MongoClient
-import urllib.parse
+import gridfs
+from PIL import Image
+import io
 
 connection = MongoClient('mongodb://root:root@localhost:27017/')
-db = connection['test']
-col = db['test']
+db = connection.test
+fs = gridfs.GridFS(db)
 
-#mydict = { "name": "Jae1", "address": "Highway 37" }
-#collectionn.insert_one(mydict)
+def loadImage(searchFileName):
+    data = db.fs.files.find_one({'filename':searchFileName})
+    imageID = data['_id']
+    loadedImageBytes = fs.get(imageID).read()
+    loadedImage = Image.open(io.BytesIO(loadedImageBytes))
+    return loadedImage
 
-#item_details = collectionn.find()
-#for item in item_details:
-#    print(item)
+def saveImage(imageLocation, saveImageNameAs):
+    file_data=open(imageLocation,"rb")
+    data = file_data.read()
+    imageID = fs.put(data, filename=saveImageNameAs)
+    return imageID
 
-import gridfs
-tireInfo = gridfs.GridFS(db)
-
-def saveImage():
-    imageLocation = "C:/Users/Jae/Downloads/firsttesttire.jpg"
-    #Open the image in read-only format.
-    with open(imageLocation, 'rb') as tireImage:
-        contents = tireImage.read()
-    #Now store/put the image via GridFs object.
-    tireInfo.put(contents, filename="image1")
+def saveDocument(document):
+    db.insert_one(document)
 
 
+#saveDocument(post)
 '''
-imageLocation = "C:/Users/Jae/Downloads/tiretest.png"
-with open(imageLocation, 'rb') as tireImage:
-    contents = tireImage.read()
-tireInfo.put(contents, filename="image2")
-'''
-
-'''
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-image = mpimg.imread('C:/Users/Jae/Downloads/firsttesttire.jpg')
-plt.imshow(image)
-plt.show()
+post = {"author": "Mike",
+        "text": "My first blog post!",
+        "tags": ["mongodb", "python", "pymongo"],
+        "date": datetime.datetime.utcnow()
+        }
 '''
 
+#saveImage("C:/Users/Jae/Downloads/firsttesttire.jpg",'finaltest1')
 
-'''
-importim = Image.open(r"C:/Users/Jae/Downloads/firsttesttire.jpg")
-am = im
-'''
+#testImage = loadImage('finaltest1')
+#testImage.show()
+    #loadedImage.show()
 
-'''
-reading = db.tireInfo.files.find_one({'filename':'image1'})
-my_id = data['_id']
-'''
