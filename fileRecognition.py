@@ -1,12 +1,11 @@
 import os.path
-from os import path
 from time import sleep
 import loadSystemImage as lsi
 
-folderDir = 'C:/Users/Jae/Desktop/Mongo/testPic/'
+#folderDir = 'C:/Users/Jae/Desktop/Mongo/testPic/'
 
-def checkFileExists():
-    if len(os.listdir(folderDir)) == 0:
+def checkFileExists(imageLocation):
+    if len(os.listdir(imageLocation)) == 0:
         #no file
         print("Waiting")
         sleep(5)

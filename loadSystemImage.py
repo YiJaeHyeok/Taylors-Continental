@@ -4,24 +4,27 @@ import os
 
 folderDir = 'C:/Users/Jae/Desktop/Mongo/testPic/*'
 
-def returnImageLoc():
-    for filename in glob.glob(folderDir): 
-        tmp = filename
+def returnImageLoc(folderLocation):
+    for filename in glob.glob(folderLocation): 
+        return filename
         break
-    return filename
-
-def loadImageFromFile():
-    image = Image.open(returnImageLoc()) 
+    
+def loadImageFromFile(imageLocation):
+    image = Image.open(imageLocation) 
     return image
 
-def removePicInFolder():
-    picDir = glob.glob(folderDir)
+def closeImage(image):
+    image.close()
+
+def removePicInFolder(imageLocation):
+    picDir = glob.glob(imageLocation)
     for pic in picDir:
         os.remove(pic)
         break
 
+#print(returnImageLoc(folderDir))
+
 # order: load -> extract -> save image -> save text (including id from image)
-removePicInFolder()
 
 #testimage = loadImageFromFile()
 #testimage.show()

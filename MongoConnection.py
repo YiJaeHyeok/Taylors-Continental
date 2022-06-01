@@ -23,7 +23,7 @@ def saveImage(imageLocation, saveImageNameAs):
     return imageID
 
 def createDocument(a,b,c,d):
-    doc = {"author": a,
+    doc = {"imageID": a,
         "text": b,
         "tags": [c, d],
         "date": datetime.datetime.utcnow()
