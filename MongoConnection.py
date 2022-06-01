@@ -2,9 +2,11 @@ from pymongo import MongoClient
 import gridfs
 from PIL import Image
 import io
+import datetime
 
 connection = MongoClient('mongodb://root:root@localhost:27017/')
 db = connection.test
+col = db['test']
 fs = gridfs.GridFS(db)
 
 def loadImage(searchFileName):
@@ -15,23 +17,27 @@ def loadImage(searchFileName):
     return loadedImage
 
 def saveImage(imageLocation, saveImageNameAs):
-    file_data=open(imageLocation,"rb")
-    data = file_data.read()
-    imageID = fs.put(data, filename=saveImageNameAs)
+    imgae_data = open(imageLocation,"rb")
+    image = imgae_data.read()
+    imageID = fs.put(image, filename=saveImageNameAs)
     return imageID
 
-def saveDocument(document):
-    db.insert_one(document)
-
-
-#saveDocument(post)
-'''
-post = {"author": "Mike",
-        "text": "My first blog post!",
-        "tags": ["mongodb", "python", "pymongo"],
+def createDocument(a,b,c,d):
+    doc = {"author": a,
+        "text": b,
+        "tags": [c, d],
         "date": datetime.datetime.utcnow()
         }
-'''
+    return doc
+
+def saveDocument(document):
+    col.insert_one(document)
+
+
+
+
+
+
 
 #saveImage("C:/Users/Jae/Downloads/firsttesttire.jpg",'finaltest1')
 
