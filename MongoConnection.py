@@ -24,8 +24,8 @@ def saveImage(imageLocation, saveImageNameAs):
 
 def createDocument(a,b,c,d):
     doc = {"imageID": a,
-        "text": b,
-        "tags": [c, d],
+        "DOT": b,
+        "TCIS": [c, d],
         "date": datetime.datetime.utcnow()
         }
     return doc
