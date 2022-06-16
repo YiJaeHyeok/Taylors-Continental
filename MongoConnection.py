@@ -39,6 +39,10 @@ def createDocument(imageID,TirePattern,TireSize,DOT):
         "Tire Size":TireSize,
         "Tire Size and Pattern": "%s %s" %(TireSize,TirePattern),
         "Date captured": datetime.utcnow()
+        #"Date captured": datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+
         }
     return doc
 
