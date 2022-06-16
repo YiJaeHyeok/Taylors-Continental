@@ -4,13 +4,27 @@ cam = cv2.VideoCapture(0)
 
 cv2.namedWindow("test")
 
-img_counter = 0
-
-while True:
+def startCamera():
     cam_on, image = cam.read()
     if not cam_on:
         print("No input from sensor")
-        break
+        
+    
+    cv2.imshow("test", image)
+
+startCamera()
+
+
+img_counter = 0
+
+cam_on, image = cam.read()
+if not cam_on:
+        print("No input from sensor")
+        quit()
+
+while True:
+    
+
     cv2.imshow("test", image)
 
     k = cv2.waitKey(1)
@@ -18,6 +32,7 @@ while True:
         # ESC pressed
         print("Escape hit, closing...")
         break
+
     elif k%256 == 32: #change to when receive serial from Aduino
         # SPACE pressed
         img_name = "opencv_image_{}.png".format(img_counter)
@@ -28,3 +43,4 @@ while True:
 cam.release()
 
 cv2.destroyAllWindows()
+

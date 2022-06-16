@@ -1,6 +1,7 @@
 import MongoConnection as mc
 import loadSystemImage as lsi
 import processingAlgorithms as pa
+import OCR 
 from random import *
 import os.path
 from time import sleep
@@ -31,9 +32,12 @@ def runSystem():
             image = lsi.loadImageFromFile(imageLoc)
         
             #4) pre-process image
+            
 
             #5) Process image
-            # ****TMP
+            texts = OCR.tesseractReader(image)
+            print (texts)
+
             #pa.processimage(image)
             b = (randint(1,10))
             c= (randint(1,100))

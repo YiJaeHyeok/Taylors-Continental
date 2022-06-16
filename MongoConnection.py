@@ -2,11 +2,12 @@ from pymongo import MongoClient
 import gridfs
 from PIL import Image
 import io
-import datetime
+from datetime import datetime
 
 connection = MongoClient('mongodb://root:root@localhost:27017/')
-db = connection.test
-col = db['test']
+db = connection.Continental
+col = db['Tire Information']
+fscol = db['fs.files']
 fs = gridfs.GridFS(db)
 
 def loadImage(searchFileName):
@@ -16,19 +17,35 @@ def loadImage(searchFileName):
     loadedImage = Image.open(io.BytesIO(loadedImageBytes))
     return loadedImage
 
-def saveImage(imageLocation, saveImageNameAs):
+def saveImageFromLocation(imageLocation, saveImageNameAs):
     imgae_data = open(imageLocation,"rb")
-    image = imgae_data.read()
-    imageID = fs.put(image, filename=saveImageNameAs)
+    imagebytes = imgae_data.read()
+    imageID = fs.put(imagebytes, filename=saveImageNameAs)
     return imageID
 
-def createDocument(a,b,c,d):
-    doc = {"imageID": a,
-        "DOT": b,
-        "TCIS": [c, d],
-        "date": datetime.datetime.utcnow()
+def saveImage(image, saveImageNameAs):
+    tireImageBytes = io.BytesIO()
+    image.save(tireImageBytes,format='PNG')
+    tireImageBytes=tireImageBytes.getvalue()
+
+    imageID = fs.put(tireImageBytes, filename=saveImageNameAs)
+    return imageID
+
+
+def createDocument(imageID,TirePattern,TireSize,DOT):
+    doc = {"imageID": imageID,
+        "Department of Transportation": DOT,
+        "Tire Pattern":TirePattern,
+        "Tire Size":TireSize,
+        "Tire Size and Pattern": "%s %s" %(TireSize,TirePattern),
+        "Date captured": datetime.utcnow()
         }
     return doc
+
+def count():
+    tireCount = fscol.count_documents({})
+    return tireCount
+
 
 def saveDocument(document):
     col.insert_one(document)
