@@ -1,6 +1,6 @@
+import os
 from PIL import Image
 import glob
-import os
 
 folderDir = 'C:/Users/Jae/Desktop/Mongo/testPic/*'
 

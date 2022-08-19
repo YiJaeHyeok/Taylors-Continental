@@ -5,19 +5,19 @@ import io
 from datetime import datetime
 
 connection = MongoClient('mongodb://root:root@localhost:27017/')
-db = connection.Continental
-col = db['Tire Information']
-fscol = db['fs.files']
-fs = gridfs.GridFS(db)
+databaseCon = connection.Continental
+tireInfoCollectionCon = databaseCon['Tire Information']
+#imageCollectionCon = databaseCon['fs.files']
+fs = gridfs.GridFS(databaseCon)
 
-def loadImage(searchFileName):
-    data = db.fs.files.find_one({'filename':searchFileName})
+def loadImageFromDB(searchFileName):
+    data = databaseCon.fs.files.find_one({'filename':searchFileName})
     imageID = data['_id']
     loadedImageBytes = fs.get(imageID).read()
     loadedImage = Image.open(io.BytesIO(loadedImageBytes))
     return loadedImage
 
-def saveImageFromLocation(imageLocation, saveImageNameAs):
+def saveImageFromFile(imageLocation, saveImageNameAs):
     imgae_data = open(imageLocation,"rb")
     imagebytes = imgae_data.read()
     imageID = fs.put(imagebytes, filename=saveImageNameAs)
@@ -32,7 +32,7 @@ def saveImage(image, saveImageNameAs):
     return imageID
 
 
-def createDocument(imageID,TirePattern,TireSize,DOT):
+def createDoc(imageID,TirePattern,TireSize,DOT):
     doc = {"imageID": imageID,
         "Department of Transportation": DOT,
         "Tire Pattern":TirePattern,
@@ -41,18 +41,16 @@ def createDocument(imageID,TirePattern,TireSize,DOT):
         "Date captured": datetime.utcnow()
         #"Date captured": datetime.now().strftime("%Y%m%d_%H%M%S")
 
-
-
         }
     return doc
 
-def count():
-    tireCount = fscol.count_documents({})
+def countDoc():
+    tireCount = tireInfoCollectionCon.count_documents({})
     return tireCount
 
 
-def saveDocument(document):
-    col.insert_one(document)
+def saveDoc(document):
+    tireInfoCollectionCon.insert_one(document)
 
 
 
