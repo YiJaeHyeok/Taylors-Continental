@@ -1,5 +1,5 @@
 import MongoConnection as mc
-import Functions.processingAlgorithms as pa
+#import Functions.processingAlgorithms as pa
 import OCR 
 import cv2
 from PIL import Image as im
@@ -54,7 +54,7 @@ def runProgram():
 
         
 
-            pa.categorize(b,c,d)
+            #pa.categorize(b,c,d)
             mc.saveDoc(mc.createDoc(imageID,texts,c,d))
 
         elif k%256 == 27: #if press terminate from UI

@@ -17,5 +17,3 @@ def startSystem():
     p2.join()  
 
 startSystem() 
-   
-
