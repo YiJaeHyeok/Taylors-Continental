@@ -32,14 +32,10 @@ def runProgram():
             imageID = mc.saveImage(tireImage, imageName)
             
             #4) pre-process image
-        
-        
             
             #5) Process image
             texts = OCR.tesseractReader(tireImage)
             print (texts)
-
-        # ReadData = Continental UT100 DOT12345 1258754 250/45
 
             #pa.processimage(image)
             b = 1
@@ -47,13 +43,6 @@ def runProgram():
             d= 3
 
             #6) categorize into columns and save as documents in order
-
-            #categorize()
-                #categorized = [Brand:'Continental', DOT: **** , Size = 250/45 ............]
-                #return categorized
-
-        
-
             pa.categorize(b,c,d)
             mc.saveDoc(mc.createDoc(imageID,texts,c,d))
 
