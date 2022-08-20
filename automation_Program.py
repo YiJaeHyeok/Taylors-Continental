@@ -4,6 +4,7 @@ import OCR
 import cv2
 from PIL import Image as im
 import sys
+
 #Requres update whenever image folder change
 def runProgram():
     cam = cv2.VideoCapture(0)
