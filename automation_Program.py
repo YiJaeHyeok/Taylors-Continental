@@ -7,7 +7,7 @@ import sys
 
 #Requres update whenever image folder change
 def runProgram():
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(1)
     while True:
 
         tireCount = mc.countDoc() +1
