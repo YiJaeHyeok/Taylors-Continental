@@ -19,3 +19,4 @@ def arduinoCapture(com,port,timeout):
                 #keyboard.release("space")
         #ser.close()
 
+#arduinoCapture('COM1',9600,1)

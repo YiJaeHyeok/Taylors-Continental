@@ -5,8 +5,9 @@ import io
 from datetime import datetime
 
 connection = MongoClient('mongodb://root:root@localhost:27017/')
+##connection = MongoClient('mongodb://localhost:27017/')
 databaseCon = connection.Continental
-tireInfoCollectionCon = databaseCon['Tire Information']
+tireInfoCollectionCon = databaseCon['TireInformation']
 #imageCollectionCon = databaseCon['fs.files']
 fs = gridfs.GridFS(databaseCon)
 
@@ -54,7 +55,7 @@ def saveDoc(document):
 
 
 
-
+#saveDoc({"test1":123,"test2":234})
 
 
 

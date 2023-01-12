@@ -7,7 +7,8 @@ port = 9600
 timeout = 1
  
 
-def startSystem():
+'''
+# def startSystem():
   if __name__ == '__main__':
     p1 = Process(target=automation_Program.runProgram) 
     p1.start()
@@ -17,3 +18,5 @@ def startSystem():
     p2.join()  
 
 startSystem() 
+'''
+
