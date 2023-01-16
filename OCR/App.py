@@ -12,12 +12,19 @@ import cv2
 import PIL.Image, PIL.ImageTk
 import time
   
+tireCount = 0
+x= 0
+y= 0
+
 class App:
      def __init__(self, window, window_title, video_source=0):
         self.window = window
+        self.window.geometry('650x650')
+        self.window.resizable(False,False)
         self.window.title(window_title)
         self.video_source = video_source
- 
+        
+
         # open video source (by default this will try to open the computer webcam)
         self.vid = MyVideoCapture(self.video_source)
  
@@ -25,53 +32,87 @@ class App:
         self.canvas = tkinter.Canvas(window, width = self.vid.width, height = self.vid.height)
         self.canvas.pack()
 
-        #def onKeyPress(self, event):
-        #    print("Key has been Pressed.")
+        def combine(event):
+            self.snapshot(self)
+            tirebrandResult(event)
+            Department_of_Transportation(event)
+            Tire_Pattern(event)
+            Tire_Size(event)
 
-        #tkinter.Tk().bind("<KeyPress>", self.onKeyPress) 
-        
+        def tirebrandResult(event):
+            global tireCount
+            w=Label(window,text="Tire Brand:"+ str(tireCount))
+            w.place(x=150,y=490)
 
+        def Department_of_Transportation(event):
+            global tireCount
+            w=Label(window,text="Department of Transportation:"+ str(tireCount))
+            w.place(x=150,y=510)
 
-        result = ""
-        def show(OCRoutput):
-            global result
-            result+=OCRoutput
-            label_result.config(text=result)
-            
-        def clear():
-            global result
-            result = ""
-            label_result.config(text=result)
+        def Tire_Pattern(event):
+            global tireCount
+            w=Label(window,text="Tire Pattern:"+ str(tireCount))
+            w.place(x=150,y=530)
 
-        label_result = tkinter.Label(window,text="result tab \n",font=("aerial",12))
-        label_result.pack(side=TOP, expand=True)
+        def Tire_Size(event):
+            global tireCount
+            w=Label(window,text="Tire Size:"+ str(tireCount))
+            w.place(x=150,y=550)
+
+        #window.bind("qwe",tirebrandResult)
 
          # Button that lets the user take a snapshot
         self.btn_snapshot1=tkinter.Button(window, text="Exit", width=50, command=self.close)
-        self.btn_snapshot1.pack(side="left", expand=True)
-        
-         #k = cv2.waitKey(1)
-         #self.btn_snapshot2=tkinter.Button(window, text="testbutton2", width=50, command=self.snapshot)
-         #self.btn_snapshot2.pack(side="left", expand=True)
+        self.btn_snapshot1.place(x=150, y= 600)
 
-    
+        #self.window.bind("qwe", self.snapshot, tirebrandResult) 
+        self.window.bind("qwe", combine)  
 
-         # After it is called once, the update method will be automatically called every delay milliseconds
         self.delay = 15
         self.update()
- 
         self.window.mainloop()
  
-     def snapshot(self):
+     def snapshot(self,event):
          # Get a frame from the video source
         ret, frame = self.vid.get_frame()
+        print('pic taken')
  
         if ret:
-             #tireImage = im.fromarray(frame)
-             #tireCount = mc.countDoc() +1
-             #imageName = 'TireImage_%s' %tireCount
-             #imageID = mc.saveImage(tireImage, imageName)
-             print("test")
+             global tireCount
+             tireCount = mc.countDoc() +1
+             imageName = 'TireImage_%s' %tireCount
+             print(imageName)
+
+             #tireImage.show() #Show image for testing
+             tireImage = im.fromarray(frame)
+
+             #2) Save image into DB and retrieve unique key
+             imageID = mc.saveImage(tireImage, imageName)
+             
+             #3) pre-process image
+
+             #4) Process image
+             texts = OCR.tesseractReader(tireImage)
+             print (texts)
+
+             # ReadData = Continental UT100 DOT12345 1258754 250/45
+
+            #pa.processimage(image)
+             b = 1
+             c= 2
+             d= 3
+
+            #6) categorize into columns and save as documents in order
+
+            #categorize()
+                #categorized = [Brand:'Continental', DOT: **** , Size = 250/45 ............]
+                #return categorized
+
+             #pa.categorize(b,c,d)
+             mc.saveDoc(mc.createDoc(imageID,texts,c,d))
+             global output1
+             output1=tireCount
+        
 
      def update(self):
          # Get a frame from the video source
