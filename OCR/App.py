@@ -3,7 +3,7 @@ import MongoConnection as mc
 import OCR
 import cv2
 from PIL import Image as im
-import sys
+#import sys
 
 import tkinter
 from tkinter import *
