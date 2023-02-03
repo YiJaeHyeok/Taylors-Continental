@@ -5,6 +5,10 @@ if(!loggedIn()):
 header('Location: index.php');
 endif;
 
+if(admin()):
+   header('Location: index.php');
+   endif;
+
 ?>
 <!DOCTYPE html>
 <html>

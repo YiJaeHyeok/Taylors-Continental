@@ -5,6 +5,10 @@ if(!loggedIn()):
    header('Location: main.php');
    endif;
 
+if(admin()):
+   header('Location: index.php');
+   endif;
+
 if (isset($_GET['id'])) {
    $tires = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['id'])]);
 }

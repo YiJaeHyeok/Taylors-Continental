@@ -5,6 +5,9 @@ require_once ('config.php');
 if(!loggedIn()):
    header('Location: main.php');
    endif;
+if(admin()):
+   header('Location: index.php');
+   endif;
 
 if(isset($_POST['submit'])){
 

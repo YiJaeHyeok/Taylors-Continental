@@ -6,6 +6,10 @@ endif;
 if(isset($_POST["submit"])):
   if(!($row = checkPass($_POST["login"], $_POST["password"]))):
     echo "<p>Incorrect login/password, try again</p>";
+	?>	
+	<a href="login.php" class="btn btn-success">Back</a>
+
+	<?php
     exit;
   endif;
   cleanMemberSession($_POST["login"], $_POST["password"]);

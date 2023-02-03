@@ -27,6 +27,12 @@ session_start();
 		}
 	endif;
 
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 2)) {
+	session_unset();     // unset $_SESSION variable for the run-time 
+	#session_destroy();   // destroy session data in storage
+}
+
+	$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
 function newUser($login, $password, $role ,$details)
 {

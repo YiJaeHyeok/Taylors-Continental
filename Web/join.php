@@ -1,8 +1,10 @@
 <?php
 include_once("config.php");
-#if(loggedIn()):
-#    header('Location: index.php');
-#endif;
+if(loggedIn()&&(!(admin()))):
+    header('Location: index.php');
+endif;
+
+
 if(isset($_POST["submit"])):
 	if(!($_POST["password"] == $_POST["password2"])):
 		echo "<p>Your passwords did not match</p>";
