@@ -1,0 +1,12 @@
+<?php
+require_once __DIR__ .'/vendor/autoload.php';
+$con = new MongoDB\Client("mongodb://root:root@localhost:27017");
+$db = $con->Continental;
+$collection = $db->TireInformation;
+
+$cursor=$collection->find();
+foreach($cursor as $result)
+{
+    print_r($result);
+}
+?>

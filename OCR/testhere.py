@@ -1,4 +1,7 @@
-import MongoConnection as mc
+import cv2
+from matplotlib import pyplot as plt
 
-test= mc.countDoc()
-print(test)
+# Read image
+img = cv2.imread(r"C:\Users\contienntal\Desktop\tireImage\Goodyear.png")
+img2 = cv2.imread(r"C:\Users\contienntal\Desktop\tireImage\tireimage.png")
+print(img.shape)

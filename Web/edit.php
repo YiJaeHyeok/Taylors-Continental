@@ -1,11 +1,9 @@
 <?php
 
-
-session_start();
-
-
-require 'config.php';
-
+require_once ('config.php');
+if(!loggedIn()):
+   header('Location: main.php');
+   endif;
 
 if (isset($_GET['id'])) {
    $tires = $collection->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['id'])]);
@@ -23,7 +21,7 @@ if(isset($_POST['submit'])){
 
 
    $_SESSION['success'] = "Data updated successfully";
-   header("Location: index.php");
+   header("Location: main.php");
 }
 
 
@@ -41,7 +39,7 @@ if(isset($_POST['submit'])){
 
 <div class="container">
    <h1>Edit Data</h1>
-   <a href="index.php" class="btn btn-primary">Back</a>
+   <a href="main.php" class="btn btn-primary">Back</a>
 
 
    <form method="POST">

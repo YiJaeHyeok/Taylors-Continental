@@ -1,14 +1,12 @@
 <?php
 
 
-session_start();
-
+require_once ('config.php');
+if(!loggedIn()):
+   header('Location: main.php');
+   endif;
 
 if(isset($_POST['submit'])){
-
-
-   require 'config.php';
-
 
    $insertOneResult = $collection->insertOne([
        'DOT' => $_POST['DOT'],
@@ -20,7 +18,7 @@ if(isset($_POST['submit'])){
 
 
    $_SESSION['success'] = "Data added successfully";
-   header("Location: index.php");
+   header("Location: main.php");
 }
 
 
@@ -38,7 +36,7 @@ if(isset($_POST['submit'])){
 
 <div class="container">
    <h1>Add Data</h1>
-   <a href="index.php" class="btn btn-primary">Back</a>
+   <a href="main.php" class="btn btn-primary">Back</a>
 
 
    <form method="POST">

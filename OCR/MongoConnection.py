@@ -4,19 +4,21 @@ from PIL import Image
 import io
 from datetime import datetime
 
-connection = MongoClient('mongodb://root:root@localhost:27017/')
+connection = MongoClient('mongodb://writeonly:writeonly@localhost:27017/?authMechanism=DEFAULT&authSource=Continental')
 ##connection = MongoClient('mongodb://localhost:27017/')
 databaseCon = connection.Continental
 tireInfoCollectionCon = databaseCon['TireInformation']
 #imageCollectionCon = databaseCon['fs.files']
 fs = gridfs.GridFS(databaseCon)
 
+'''
 def loadImageFromDB(searchFileName):
     data = databaseCon.fs.files.find_one({'filename':searchFileName})
     imageID = data['_id']
     loadedImageBytes = fs.get(imageID).read()
     loadedImage = Image.open(io.BytesIO(loadedImageBytes))
     return loadedImage
+'''
 
 def saveImageFromFile(imageLocation, saveImageNameAs):
     imgae_data = open(imageLocation,"rb")
