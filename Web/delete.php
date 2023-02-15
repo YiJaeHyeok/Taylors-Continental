@@ -4,11 +4,12 @@
 require 'config.php';
 if(!loggedIn()):
     header('Location: main.php');
-    endif;
 
-if(admin()):
+
+elseif(admin()):
     header('Location: index.php');
-    endif;
+
+else:
     
 $collection->deleteOne(['_id' => new MongoDB\BSON\ObjectID($_GET['id'])]);
 
@@ -18,3 +19,4 @@ header("Location: main.php");
 
 
 ?>
+<?php endif; ?>

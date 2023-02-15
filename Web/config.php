@@ -12,7 +12,7 @@ try{
 
     catch (MongoConnectionException $e){
         die('Error connecting to MongoDB server');
-} 
+}
 
     catch (MongoException $e) {
         die('Error: ' . $e->getMessage());
@@ -23,13 +23,12 @@ session_start();
 		{
 			$_SESSION['login']='';
 			$_SESSION['password']='';
-			$_SESSION['loggedIn']='';	
+			$_SESSION['loggedIn']='';
 		}
 	endif;
 
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 2)) {
-	session_unset();     // unset $_SESSION variable for the run-time 
-	#session_destroy();   // destroy session data in storage
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 30)) {
+	session_unset();     // unset 
 }
 
 	$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
@@ -41,12 +40,12 @@ function newUser($login, $password, $role ,$details)
 	return true;
 }
 
-function checkPass($login, $password) 
+function checkPass($login, $password)
 {
 	global $userdatabase;
 	$res = $userdatabase->findOne(array('login' => $login, 'password' => md5($password)));
 	#	findOne(array('login' => 'admin', 'password' => md5($password)));
-	if($res):		
+	if($res):
 	$_SESSION['role']=$res->role;
 	return true;
 	endif;
@@ -78,7 +77,7 @@ function loggedIn()
 	  return false;
 	endif;
 }
-  
+
 function admin()
 {
 	if($_SESSION['role']=='Admin'):

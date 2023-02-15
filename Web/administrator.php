@@ -1,17 +1,16 @@
+
 <?php
 include_once("config.php");
 
 
-require_once ('config.php');
 if(!loggedIn()):
    header('Location: index.php');
-   endif;
+   
 
-if(!admin()):
-   header('Location: index.php');
-   endif;
+elseif(!admin()):
+header('Location: Unauthorized.php');
 
-
+else:
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +38,7 @@ if(!admin()):
 
 <table class="table table-borderd">
    <tr>
-      <th>Login ID</th> 
+      <th>Login ID</th>
       <th>Role</th>
       <th>Details</th>
 
@@ -53,8 +52,7 @@ if(!admin()):
          echo "<td>".$users->login."</td>";
          echo "<td>".$users->role."</td>";
          echo "<td>".$users->details."</td>";
-         #echo "<td>".$users->role."</td>";
-         #echo "<td>".$users->details."</td>";
+  
 
          echo "<td>";
          echo "<a href='edit.php?id=".$users->_id."' class='btn btn-primary'>Edit</a>";
@@ -72,3 +70,4 @@ if(!admin()):
 </div>
 </body>
 </html>
+<?php endif; ?>

@@ -1,12 +1,12 @@
 <?php
 include_once("config.php");
-if(loggedIn()):
+if(@loggedIn()):
 header('Location: main.php');
 endif;
 if(isset($_POST["submit"])):
   if(!($row = checkPass($_POST["login"], $_POST["password"]))):
     echo "<p>Incorrect login/password, try again</p>";
-	?>	
+	?>
 	<a href="login.php" class="btn btn-success">Back</a>
 
 	<?php

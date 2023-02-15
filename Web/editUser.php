@@ -3,12 +3,11 @@
 require_once ('config.php');
 if(!loggedIn()):
    header('Location: index.php');
-   endif;
 
-if(!admin()):
+elseif(!admin()):
    header('Location: index.php');
-   endif;
-
+   
+else:
 if (isset($_GET['id'])) {
    $tires = $userdatabase->findOne(['_id' => new MongoDB\BSON\ObjectID($_GET['id'])]);
 }
@@ -19,7 +18,7 @@ if(isset($_POST['submit'])){
 
    $userdatabase->updateOne(
        ['_id' => new MongoDB\BSON\ObjectID($_GET['id'])],
-       ['$set' => ['DOT' => $_POST['DOT'], 'TICS' => $_POST['TICS'],
+       ['$set' => ['DOT' => $_POST['DOT'], 'Date' => $_POST['Date'],
        'Tire_Size' => $_POST['Tire_Size'],'Pattern' => $_POST['Pattern'],'Brand' => $_POST['Brand']]]
    );
 
@@ -52,8 +51,8 @@ if(isset($_POST['submit'])){
          <input type="text" name="DOT" value="<?php echo $tires->DOT; ?>" required="" class="form-control" placeholder="DOT">
       </div>
       <div class="form-group">
-         <strong>TICS:</strong>
-         <textarea class="form-control" name="TICS" placeholder="TICS" placeholder="TICS"><?php echo $tires->TICS; ?></textarea>
+         <strong>Date:</strong>
+         <textarea class="form-control" name="Date" placeholder="Date" placeholder="Date"><?php echo $tires->Date; ?></textarea>
       </div>
       <div class="form-group">
          <strong>Tire Size:</strong>
@@ -76,3 +75,4 @@ if(isset($_POST['submit'])){
 
 </body>
 </html>
+<?php endif; ?>

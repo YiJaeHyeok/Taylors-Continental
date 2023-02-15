@@ -1,16 +1,19 @@
 <?php
 include_once("config.php");
-if(loggedIn()&&(!(admin()))):
-    header('Location: index.php');
-endif;
+if(!loggedIn()):
+  header('Location: index.php');
 
+elseif(!admin()):
+  header('Location: index.php');
+  
+else:
 
 if(isset($_POST["submit"])):
 	if(!($_POST["password"] == $_POST["password2"])):
 		echo "<p>Your passwords did not match</p>";
 		exit;
 	endif;
-	
+
     $query = $userdatabase->findOne(array('login' => $_POST['login']));
 
 	if(empty($query)):
@@ -85,3 +88,4 @@ endif;
 </form>
 </body>
 </html>
+<?php endif; ?>

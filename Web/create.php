@@ -4,25 +4,39 @@
 require_once ('config.php');
 if(!loggedIn()):
    header('Location: main.php');
-   endif;
-if(admin()):
+   
+elseif(admin()):
    header('Location: index.php');
-   endif;
+   
+else:
 
+if(isset($_SESSION['error'])){
+   echo "<div class='alert alert-danger'>".$_SESSION['error']."</div>";
+}
 if(isset($_POST['submit'])){
+   // Check if input contains special characters
+   if(preg_match('/[^A-Za-z0-9_]/', $_POST['DOT']) ||
+      preg_match('/[^A-Za-z0-9_]/', $_POST['Date']) ||
+      preg_match('/[^A-Za-z0-9_]/', $_POST['Tire_Size']) ||
+      preg_match('/[^A-Za-z0-9_]/', $_POST['Pattern']) ||
+      preg_match('/[^A-Za-z0-9_]/', $_POST['Brand'])){
+
+      $_SESSION['error'] = "Input cannot contain special characters";
+      header("Location: create.php");
+exit;
+   }
 
    $insertOneResult = $collection->insertOne([
        'DOT' => $_POST['DOT'],
-       'TICS' => $_POST['TICS'],
+      'Date' => $_POST['Date'],
        'Tire_Size' => $_POST['Tire_Size'],
        'Pattern' => $_POST['Pattern'],
-       'Brand' => $_POST['Brand'],
-   ]);
-
-
-   $_SESSION['success'] = "Data added successfully";
-   header("Location: main.php");
+      'Brand' => $_POST['Brand'],
+  ]);
+  $_SESSION['success'] = "Data added successfully";
+  header("Location: main.php");
 }
+
 
 
 ?>
@@ -33,6 +47,7 @@ if(isset($_POST['submit'])){
 <head>
    <title>Add Data</title>
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
 </head>
 <body>
 
@@ -48,8 +63,8 @@ if(isset($_POST['submit'])){
          <input type="text" name="DOT" required="" class="form-control" placeholder="DOT">
       </div>
       <div class="form-group">
-         <strong>TICS:</strong>
-         <textarea class="form-control" name="TICS" placeholder="TICS" placeholder="TICS"></textarea>
+         <strong>Date:</strong>
+         <textarea class="form-control" name="Date" placeholder="Date" placeholder="Date"></textarea>
       </div>
       <div class="form-group">
          <strong>Tire Size:</strong>
@@ -72,3 +87,4 @@ if(isset($_POST['submit'])){
 
 </body>
 </html>
+<?php endif; ?>

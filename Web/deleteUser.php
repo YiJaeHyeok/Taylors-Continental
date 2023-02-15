@@ -1,15 +1,17 @@
 <?php
-
-
-require 'config.php';
+require_once ('config.php');
 if(!loggedIn()):
-    header('Location: administration.php');
-    endif;
+   header('Location: index.php');
+
+elseif(!admin()):
+   header('Location: index.php');
+   
+else:
 
 $userdatabase->deleteOne(['_id' => new MongoDB\BSON\ObjectID($_GET['id'])]);
 
 $_SESSION['success'] = "Data deleted successfully";
 header("Location: administrator.php");
 
-
+endif;
 ?>
