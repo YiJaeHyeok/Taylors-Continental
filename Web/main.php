@@ -178,7 +178,7 @@ else:
  $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
  $start = ($current_page - 1) * $limit;
  $tires_subset = array_slice($tires, $start, $limit);
-
+ $ellipsisAdded = false;
  foreach ($tires_subset as $tire) {
    echo "<tr>";
    echo "<td>".$tire->DOT."</td>";
@@ -203,12 +203,21 @@ else:
    echo "<a class='page-link' href='?page=".($current_page - 1)."' tabindex='-1'>Previous</a>";
    echo "</li>";
  }
-
+ 
  for ($i = 1; $i <= $total_pages; $i++) {
-   echo "<li class='page-item ".($i === $current_page ? 'active' : '')."'>";
-   echo "<a class='page-link' href='?page=".$i."'>".$i."</a>";
-   echo "</li>";
- }
+  if ($total_pages > 10 && abs($i - $current_page) > 2 && $i != 1 && $i != $total_pages) {
+    if ($i > $current_page && $ellipsisAdded != 'right') {
+      echo "<li class='page-item disabled'><span class='page-link'>...</span></li>";
+      $ellipsisAdded = 'right';
+    } elseif ($i < $current_page && $ellipsisAdded != 'left') {
+      echo "<li class='page-item disabled'><span class='page-link'>...</span></li>";
+      $ellipsisAdded = 'left';
+    }
+    continue;
+  }
+  echo "<li class='page-item ".($i === $current_page ? 'active' : '')."'>";
+  echo "<a class='page-link' href='?page=".$i."'>".$i."</a>";
+}
 
  if ($current_page < $total_pages) {
    echo "<li class='page-item'>";
